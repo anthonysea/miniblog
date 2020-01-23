@@ -18,3 +18,4 @@ class Post(models.Model):
 class Comment(models.Model):
     text = models.TextField(help_text="Body of the comment")
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    last_modified = models.DateTimeField(auto_now=True)
