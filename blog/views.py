@@ -13,13 +13,13 @@ class IndexView(generic.TemplateView):
         context = super().get_context_data(**kwargs) # Need to call and set using parent method first
 
         num_blogs = Blog.objects.all().count()
-        num_bloggers = User.objects.all().count() - 1
+        num_users = User.objects.all().count() - 1
         num_posts = Post.objects.all().count()
         latest_post = Post.objects.latest('posted_on')
 
         context.update({
             'num_blogs': num_blogs,
-            'num_bloggers': num_bloggers,
+            'num_users': num_users,
             'num_posts': num_posts,
             'latest_post': latest_post,
         })
@@ -29,10 +29,12 @@ class IndexView(generic.TemplateView):
 
 class BlogListView(generic.ListView):
     model = Blog
+    template_name = 'blog_list.html'
 
 
-class BloggerListView(generic.ListView):
+class UserListView(generic.ListView):
     model = User
+    template_name = 'user_list.html'
 
 
 class PostDetailView(generic.DetailView):
