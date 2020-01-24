@@ -2,10 +2,15 @@
 
 {% block content %}
     <h1>{{ post.title }}</h1>
-    <p>{{ post.author }} on {{ post.posted_on }}</p>
+    <p><strong>{{ post.author }}</strong> - {{ post.posted_on }}</p>
     <p>{{ post.body }}</p>
 
     {% if post.comment_set.all %}
-    sdfsdf
+        <hr>
+        <p>{{ post.comment_set.all.count }} {% if post.comment_set.all.count == 1 %} Comment {% else %} Comments {% endif %}</p>
+        {% for comment in post.comment_set.all %}
+            <p><strong>{{ comment.user }}</strong> - {{ comment.posted_on }}</p>
+            <p>{{ comment.text }}</p>
+        {% endfor %}
     {% endif %}
 {% endblock %}
