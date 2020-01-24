@@ -8,6 +8,6 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('postz/<int:pk>', views.PostDetailView.as_view(), name='post'),
-    path('blogz/<int:pk>', views.BlogDetailView.as_view(), name='blog'),
+    path('blog/<int:blog_pk>/post/<int:post_pk>', views.PostDetailView.as_view(), name='post'),
+    path('blog/<int:blog_pk>', views.BlogDetailView.as_view(), name='blog'),
 ]

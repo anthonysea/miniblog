@@ -23,8 +23,8 @@ urlpatterns = [
 
 
 urlpatterns += [
-    path('blog/', include('blog.urls')),
-    path('', RedirectView.as_view(url='blog/')),
+    path('', include('blog.urls')),
+    #path('', RedirectView.as_view(url='blog/')),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)

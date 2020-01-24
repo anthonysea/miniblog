@@ -8,6 +8,8 @@
         <li>Blogs -  {{ num_blogs }}</li>
         <li>Bloggers - {{ num_bloggers }}</li>
         <li>Posts - {{ num_posts }}</li>
-        <!-- <li>Latest Post - <a href="{% url 'post' latest_post.pk %}">{{ latest_post.title }}</a></li> -->
+        {% if latest_post %}
+            <li>Latest Post - <a href="{% url 'post' blog_pk=latest_post.blog.id post_pk=latest_post.id %}">{{ latest_post.title }}</a></li>
+        {% endif %}
     </ul>
 {% endblock %}
