@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Miniblog Home</h1>
+    <p>Lil page where you can create your own blog and post content :~)</p>
+    <p>Some stats - </p>
+    <ul>
+        <li>Blogs -  {{ num_blogs }}</li>
+        <li>Bloggers - {{ num_bloggers }}</li>
+        <li>Posts - {{ num_posts }}</li>
+        <!-- <li>Latest Post - <a href="{% url 'post' latest_post.id %}">{{ latest_post.title }}</a></li> -->
+    </ul>
+
+{% endblock %}

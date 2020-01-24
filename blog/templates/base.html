@@ -1,0 +1,28 @@
+<html>
+<head>
+    {% block title %}<title>miniblog - </title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width:device-width, initial-scale:1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <ul class="sidebar-list">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'blogs' %}">Blogs</a></li>
+                <li><a href="{% url 'bloggers' %}">Bloggers</a></li>
+                {% if user.is_authenticated %}
+                    <hr>
+                    <!-- <li><a href="{% url 'blog' user.id">My Blog</a></li> -->
+                    <li><a href=""></a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
