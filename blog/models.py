@@ -17,6 +17,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     text = models.TextField(help_text="Body of the comment")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     posted_on = models.DateField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)

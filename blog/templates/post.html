@@ -4,4 +4,8 @@
     <h1>{{ post.title }}</h1>
     <p>{{ post.author }} on {{ post.posted_on }}</p>
     <p>{{ post.body }}</p>
+
+    {% if post.comment_set.all %}
+    sdfsdf
+    {% endif %}
 {% endblock %}
