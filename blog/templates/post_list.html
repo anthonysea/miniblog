@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Recent Posts</h1>
+<ul>
+    {% for post in post_list %}
+        <li><a href="{% url 'post-detail' blog_pk=post.blog.id post_pk=post.id %}">{{ post.title }}</a> - <a href="{% url 'user-detail' post.author.id %}">{{ post.author.username }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

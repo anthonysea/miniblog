@@ -36,16 +36,34 @@ class UserListView(generic.ListView):
     model = User
     template_name = 'user_list.html'
 
+class UserDetailView(generic.DetailView):
+    model = User
+    template_name = 'user_detail.html'
+
+    def get_object(self, **kwargs):
+        user = get_object_or_404(User, pk=self.kwargs['user_pk'])
+        return user
+
+
+class PostListView(generic.ListView):
+    model = Post
+    template_name = 'post_list.html'
+
 
 class PostDetailView(generic.DetailView):
     model = Post
-    template_name = 'post.html'
+    template_name = 'post_detail.html'
 
     def get_object(self, **kwargs):
-        """Override get_object() method to return the correct post. Needed b/c we use two args in the url."""
+        """Override get_object() method to return the correct post. Needed b/c of "view must be called with either an object pk or a slug in the urlconf" error."""
         post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
         return post
 
 
 class BlogDetailView(generic.DetailView):
     model = Blog
+    template_name='blog_detail.html'
+
+    def get_object(self, **kwargs):
+        blog = get_object_or_404(Blog, pk=self.kwargs['blog_pk'])
+        return blog
