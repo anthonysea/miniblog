@@ -15,11 +15,13 @@
                 <li><a href="{% url 'blog-list' %}">Blogs</a></li>
                 <li><a href="{% url 'user-list' %}">Users</a></li>
                 <li><a href="{% url 'post-list' %}">Recent Posts</a></li>
-                <!-- {% if user.is_authenticated %}
-                    <hr>
-                    <li><a href="{% url 'blog' user.id">My Blog</a></li>
-                    <li><a href=""></a></li>
-                {% endif %} -->
+                <hr align="left" width="50%" size="1">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'blog' user.blog_set.first.id %}">My Blog</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div class="content">

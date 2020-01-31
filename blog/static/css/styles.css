@@ -16,10 +16,27 @@
     grid-area: sidebar;
 }
 
+.sidebar li {
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .content {
     grid-area: content;
 }
 
 li {
     list-style: none;
+}
+
+ul {
+    padding-left: 0px;
 }
