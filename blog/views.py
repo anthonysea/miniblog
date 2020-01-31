@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
 from django.views import generic
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from blog.models import Blog, Post, Comment
+from blog.forms import RegistrationForm
 from django.contrib.auth.models import User
 
 class IndexView(generic.TemplateView):
@@ -62,8 +65,24 @@ class PostDetailView(generic.DetailView):
 
 class BlogDetailView(generic.DetailView):
     model = Blog
-    template_name='blog_detail.html'
+    template_name = 'blog_detail.html'
 
     def get_object(self, **kwargs):
         blog = get_object_or_404(Blog, pk=self.kwargs['blog_pk'])
         return blog
+
+class RegisterView(generic.edit.FormView):
+    form_class = RegistrationForm
+    template_name = 'registration/register.html'
+    #success_url = 'blog:index'
+
+    def form_valid(self, form):
+        form.save()
+        username = form.cleaned_data.get('username')
+        raw_password = form.cleaned_data.get('password1')
+        user = authenticate(username=username, password=raw_password)
+        login(self.request, user), 
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('index')

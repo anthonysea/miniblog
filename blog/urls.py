@@ -1,12 +1,18 @@
 from django.urls import path
 from . import views
 
+#app_name = 'blog'
+
 # Index and List views of Blogs, Users, and Posts
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('blogs/', views.BlogListView.as_view(), name='blog-list'),
     path('users/', views.UserListView.as_view(), name='user-list'),
     path('posts/', views.PostListView.as_view(), name='post-list'),
+]
+
+urlpatterns += [
+    path('accounts/register/', views.RegisterView.as_view(), name='register'),
 ]
 
 # Detail views of Users, Blogs, and Posts
