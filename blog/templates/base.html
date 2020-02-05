@@ -17,6 +17,7 @@
                 <li><a href="{% url 'post-list' %}">Recent Posts</a></li>
                 <hr align="left" width="50%" size="1">
                 {% if user.is_authenticated %}
+                    <li><a href="{% url 'user-detail' user.id %}">{{ user.username }}</a></li>
                     {% if user.blog_set.first.count %}
                     <li><a href="{% url 'blog' user.blog_set.first.id %}">My Blog</a></li>
                     {% endif %}
