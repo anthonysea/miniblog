@@ -9,6 +9,7 @@ from blog.forms import RegistrationForm
 from django.contrib.auth.models import User
 
 class IndexView(generic.TemplateView):
+    """Index view to display basic statistics of the website. Makes use of overriding the get_context_data method of superclass."""
     template_name = 'index.html'
     
     def get_context_data(self, **kwargs):
@@ -31,15 +32,18 @@ class IndexView(generic.TemplateView):
 
 
 class BlogListView(generic.ListView):
+    """List view for displaying all the blogs."""
     model = Blog
     template_name = 'blog_list.html'
 
 
 class UserListView(generic.ListView):
+    """List view of all the users."""
     model = User
     template_name = 'user_list.html'
 
 class UserDetailView(generic.DetailView):
+    """Detail view for an individual user."""
     model = User
     template_name = 'user_detail.html'
 
@@ -49,11 +53,13 @@ class UserDetailView(generic.DetailView):
 
 
 class PostListView(generic.ListView):
+    """List view of all posts across."""
     model = Post
     template_name = 'post_list.html'
 
 
 class PostDetailView(generic.DetailView):
+    """Detail view for an individual post, also displays comments on the post."""
     model = Post
     template_name = 'post_detail.html'
 
@@ -64,6 +70,7 @@ class PostDetailView(generic.DetailView):
 
 
 class BlogDetailView(generic.DetailView):
+    """Detail view of a single blog, displays all posts ordered by their posted date."""
     model = Blog
     template_name = 'blog_detail.html'
 
@@ -72,6 +79,7 @@ class BlogDetailView(generic.DetailView):
         return blog
 
 class RegisterView(generic.edit.FormView):
+    """Simple view that displays the RegistrationForm for registering to use the website."""
     form_class = RegistrationForm
     template_name = 'registration/register.html'
     #success_url = 'blog:index'
