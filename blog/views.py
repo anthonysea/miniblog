@@ -8,6 +8,8 @@ from blog.models import Blog, Post, Comment
 from blog.forms import RegistrationForm
 from django.contrib.auth.models import User
 
+from datetime import date
+
 class IndexView(generic.TemplateView):
     """Index view to display basic statistics of the website. Makes use of overriding the get_context_data method of superclass."""
     template_name = 'index.html'
@@ -94,3 +96,26 @@ class RegisterView(generic.edit.FormView):
 
     def get_success_url(self):
         return reverse('index')
+
+
+class PostCreateView(generic.edit.CreateView):
+    model = Post
+    template_name = 'post_create.html'
+    fields = ['title', 'body']
+
+    def form_valid(self, form):
+        post = form.save()
+        post.author = User.objects.get(id=self.request.user)
+        post.blog = Blog.objects.get(user=self.request.user)
+        post.posted_on = date.today()
+        post.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'blog_pk': post.blog, 'post_pk': post})
+
+
+class BlogCreateView(generic.edit.CreateView):
+    model = Blog
+    template_name = 'blog_create.html'
+    fields = ['name']

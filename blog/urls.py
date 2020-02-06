@@ -21,3 +21,9 @@ urlpatterns += [
     path('blog/<int:blog_pk>', views.BlogDetailView.as_view(), name='blog'),
     path('blog/<int:blog_pk>/post/<int:post_pk>', views.PostDetailView.as_view(), name='post-detail'),
 ]
+
+# Create views for Post and Blog
+urlpatterns += [
+    path('blogs/create', views.BlogCreateView.as_view(), name='blog-create'),
+    path('posts/create', views.PostCreateView.as_view(), name='post-create'),
+]

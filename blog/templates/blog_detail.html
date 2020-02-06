@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>{{ blog.name }}</h1>
+    {% if user == blog.user %}
+    <p><a href="{% url 'post-create' %}">create new post</a></p>
+    {% endif %}
     <div class="posts">
         <ul>
             {% for post in blog.post_set.all %}
