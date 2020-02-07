@@ -21,7 +21,10 @@ class IndexView(generic.TemplateView):
         num_blogs = Blog.objects.all().count()
         num_users = User.objects.all().count() - 1
         num_posts = Post.objects.all().count()
-        latest_post = Post.objects.latest('posted_on')
+        try:
+            latest_post = Post.objects.latest('posted_on')
+        except Post.DoesNotExist:
+            latest_post = None
 
         context.update({
             'num_blogs': num_blogs,
@@ -104,15 +107,15 @@ class PostCreateView(generic.edit.CreateView):
     fields = ['title', 'body']
 
     def form_valid(self, form):
-        post = form.save()
-        post.author = User.objects.get(id=self.request.user)
-        post.blog = Blog.objects.get(user=self.request.user)
-        post.posted_on = date.today()
-        post.save()
+        self.post = form.save()
+        self.post.author = User.objects.get(id=self.request.user.id)
+        self.post.blog = Blog.objects.get(user=self.request.user.id)
+        self.post.posted_on = date.today()
+        self.post.save()
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('post-detail', kwargs={'blog_pk': post.blog, 'post_pk': post})
+        return reverse('post-detail', kwargs={'blog_pk': self.post.blog.id, 'post_pk': self.post.id})
 
 
 class BlogCreateView(generic.edit.CreateView):
