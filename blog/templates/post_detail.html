@@ -13,4 +13,11 @@
             <p>{{ comment.text }}</p>
         {% endfor %}
     {% endif %}
+    <form action="{% url 'comment-create' %}" method="post">
+        {% csrf_token %}
+        {{ form.text }}
+        {{ form.post.as_hidden }}
+        {{ form.user.as_hidden }}
+        <input type="submit" value="Post" />
+    </form>
 {% endblock %}

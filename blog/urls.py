@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.decorators.http import require_POST
 
 #app_name = 'blog'
 
@@ -26,4 +27,5 @@ urlpatterns += [
 urlpatterns += [
     path('blogs/create', views.BlogCreateView.as_view(), name='blog-create'),
     path('posts/create', views.PostCreateView.as_view(), name='post-create'),
+    path('comments/create', require_POST(views.CommentCreateView.as_view()), name='comment-create')
 ]

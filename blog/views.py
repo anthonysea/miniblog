@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
 from blog.models import Blog, Post, Comment
-from blog.forms import RegistrationForm
+from blog.forms import RegistrationForm, CommentForm
 from django.contrib.auth.models import User
 
 from datetime import date
@@ -65,13 +65,38 @@ class PostListView(generic.ListView):
 
 class PostDetailView(generic.DetailView):
     """Detail view for an individual post, also displays comments on the post."""
+    # Pass the CommentForm form through get_context_data() method so users may post comments
+    # 
     model = Post
     template_name = 'post_detail.html'
 
     def get_object(self, **kwargs):
         """Override get_object() method to return the correct post. Needed b/c of "view must be called with either an object pk or a slug in the urlconf" error."""
-        post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
-        return post
+        self.post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
+        return self.post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        initial = {
+            'text': 'sldkfjsldkfj',
+            'post': self.post.id,
+            'user': self.request.user.id,
+        }
+        print('initial', initial['post'])
+        context.update({'form': CommentForm(initial=initial)})
+        return context
+
+class CommentCreateView(generic.edit.FormView):
+    """View used to post comments on Posts"""
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        comment = form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self): 
+        return reverse('index')
+
 
 
 class BlogDetailView(generic.DetailView):

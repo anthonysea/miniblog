@@ -15,6 +15,9 @@ class Post(models.Model):
     posted_on = models.DateField(auto_now_add=True) # Automatically set the field to now when the object is first created, cannot be edited
     last_modified = models.DateField(default=date.today)
 
+    class Meta: 
+        ordering = ['-posted_on']
+
 class Comment(models.Model):
     text = models.TextField(help_text="Body of the comment")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
