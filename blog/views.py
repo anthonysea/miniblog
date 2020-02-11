@@ -64,30 +64,30 @@ class PostListView(generic.ListView):
 
 
 class PostDetailView(generic.DetailView):
-    """Detail view for an individual post, also displays comments on the post."""
-    # Pass the CommentForm form through get_context_data() method so users may post comments
-    # 
+    """Detail view for an individual post, also displays comments on the post.
+    Acts as a ListCreateView for comments by displaying the CommentForm below the comments.
+    Initial values for the 'user' and 'post' field in the CommentForm are set in this view using the corresponding context data
+    When the form is submitted it will post to the CommentCreateView which only accepts POST requests """
     model = Post
     template_name = 'post_detail.html'
 
     def get_object(self, **kwargs):
         """Override get_object() method to return the correct post. Needed b/c of "view must be called with either an object pk or a slug in the urlconf" error."""
-        self.post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
+        self.post = get_object_or_404(Post, pk=self.kwargs['post_pk']) # Set post as an instance variable because it is used in get_context_data to pass the post to the CommentForm
         return self.post
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         initial = {
-            'text': 'sldkfjsldkfj',
-            'post': self.post.id,
-            'user': self.request.user.id,
+            'post': self.post,
+            'user': self.request.user,
         }
-        print('initial', initial['post'])
         context.update({'form': CommentForm(initial=initial)})
         return context
 
 class CommentCreateView(generic.edit.FormView):
-    """View used to post comments on Posts"""
+    """View used to create comments on Posts.
+    Currently only redirects to the index, need to change to redirect to the correct post"""
     form_class = CommentForm
 
     def form_valid(self, form):
