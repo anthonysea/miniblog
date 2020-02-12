@@ -87,15 +87,15 @@ class PostDetailView(generic.DetailView):
 
 class CommentCreateView(generic.edit.FormView):
     """View used to create comments on Posts.
-    Currently only redirects to the index, need to change to redirect to the correct post"""
+    Redirects to PostDetail view with list of comments"""
     form_class = CommentForm
 
     def form_valid(self, form):
-        comment = form.save()
+        self.comment = form.save()
         return super().form_valid(form)
 
     def get_success_url(self): 
-        return reverse('index')
+        return reverse('post-detail', kwargs={'blog_pk': self.comment.post.blog.id, 'post_pk': self.comment.post.id})
 
 
 
