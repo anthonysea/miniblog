@@ -19,7 +19,9 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'user-detail' user.id %}">{{ user.username }}</a></li>
                     {% if user.blog_set.first %}
-                    <li><a href="{% url 'blog' user.blog_set.first.id %}">My Blog</a></li>
+                    <li><a href="{% url 'blog-detail' user.blog_set.first.id %}">My Blog</a></li>
+                    {% else %}
+                    <li><a href="{% url 'blog-create' %}">Create A Blog</a></li>
                     {% endif %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}

@@ -4,7 +4,7 @@
     <h1>Blogs</h1>
     <ul>
     {% for blog in blog_list %}
-        <li><a href="{% url 'blog' blog_pk=blog.id %}">{{ blog.name }}</a></li>
+        <li><a href="{% url 'blog-detail' blog_pk=blog.id %}">{{ blog.name }}</a></li>
     {% endfor %}
     </ul>
 {% endblock %}

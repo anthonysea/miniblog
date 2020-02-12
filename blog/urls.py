@@ -19,7 +19,7 @@ urlpatterns += [
 # Detail views of Users, Blogs, and Posts
 urlpatterns += [
     path('user/<int:user_pk>', views.UserDetailView.as_view(), name='user-detail'),
-    path('blog/<int:blog_pk>', views.BlogDetailView.as_view(), name='blog'),
+    path('blog/<int:blog_pk>', views.BlogDetailView.as_view(), name='blog-detail'),
     path('blog/<int:blog_pk>/post/<int:post_pk>', views.PostDetailView.as_view(), name='post-detail'),
 ]
 

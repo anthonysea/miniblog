@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.views import generic
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.forms import ModelForm
 
 from blog.models import Blog, Post, Comment
 from blog.forms import RegistrationForm, CommentForm
@@ -132,7 +133,7 @@ class PostCreateView(generic.edit.CreateView):
     fields = ['title', 'body']
 
     def form_valid(self, form):
-        self.post = form.save()
+        self.post = form.save(commit=False)
         self.post.author = User.objects.get(id=self.request.user.id)
         self.post.blog = Blog.objects.get(user=self.request.user.id)
         self.post.posted_on = date.today()
@@ -147,3 +148,12 @@ class BlogCreateView(generic.edit.CreateView):
     model = Blog
     template_name = 'blog_create.html'
     fields = ['name']
+
+    def form_valid(self, form):
+        self.blog = form.save(commit=False) # Create instance of the blog, but don't save to database becuase we have to set the user which is done in the next line
+        self.blog.user = self.request.user
+        self.blog.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('blog-detail', kwargs={'blog_pk': self.blog.id})
