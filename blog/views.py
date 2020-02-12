@@ -32,6 +32,7 @@ class IndexView(generic.TemplateView):
             'num_users': num_users,
             'num_posts': num_posts,
             'latest_post': latest_post,
+            'title': 'index',
         })
 
         return context
@@ -41,12 +42,28 @@ class BlogListView(generic.ListView):
     """List view for displaying all the blogs."""
     model = Blog
     template_name = 'blog_list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': 'blogs'
+        })
+        return context
 
 
 class UserListView(generic.ListView):
     """List view of all the users."""
     model = User
     template_name = 'user_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': 'users'
+        })
+        return context
 
 class UserDetailView(generic.DetailView):
     """Detail view for an individual user."""
@@ -57,11 +74,27 @@ class UserDetailView(generic.DetailView):
         user = get_object_or_404(User, pk=self.kwargs['user_pk'])
         return user
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': self.request.user.username
+        })
+        return context
+
 
 class PostListView(generic.ListView):
     """List view of all posts across."""
     model = Post
     template_name = 'post_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': 'all posts'
+        })
+        return context
 
 
 class PostDetailView(generic.DetailView):
@@ -83,7 +116,10 @@ class PostDetailView(generic.DetailView):
             'post': self.post,
             'user': self.request.user,
         }
-        context.update({'form': CommentForm(initial=initial)})
+        context.update({
+            'form': CommentForm(initial=initial),
+            'title': self.post.title,
+        })
         return context
 
 class CommentCreateView(generic.edit.FormView):
@@ -106,8 +142,16 @@ class BlogDetailView(generic.DetailView):
     template_name = 'blog_detail.html'
 
     def get_object(self, **kwargs):
-        blog = get_object_or_404(Blog, pk=self.kwargs['blog_pk'])
-        return blog
+        self.blog = get_object_or_404(Blog, pk=self.kwargs['blog_pk'])
+        return self.blog
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': self.blog.name
+        })
+        return context
 
 class RegisterView(generic.edit.FormView):
     """Simple view that displays the RegistrationForm for registering to use the website."""
@@ -126,11 +170,27 @@ class RegisterView(generic.edit.FormView):
     def get_success_url(self):
         return reverse('index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': 'register'
+        })
+        return context
+
 
 class PostCreateView(generic.edit.CreateView):
     model = Post
     template_name = 'post_create.html'
     fields = ['title', 'body']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': 'create post'
+        })
+        return context
 
     def form_valid(self, form):
         self.post = form.save(commit=False)
@@ -148,6 +208,14 @@ class BlogCreateView(generic.edit.CreateView):
     model = Blog
     template_name = 'blog_create.html'
     fields = ['name']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'title': 'create blog'
+        })
+        return context
 
     def form_valid(self, form):
         self.blog = form.save(commit=False) # Create instance of the blog, but don't save to database becuase we have to set the user which is done in the next line
