@@ -23,6 +23,6 @@
             <input type="submit" value="Comment" />
         </form>
     {% else %}
-    <p>Login to comment</p>
+    <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">register</a> to comment</p>
     {% endif %}
 {% endblock %}

@@ -2,6 +2,13 @@
 
 {% block content %}
 <h1>{{ user.username }}</h1>
+<h2>Blog - <a href="{% url 'blog-detail' blog_pk=blog.id %}">{{ blog.name }}</a></h2>
+<h2>Recent Posts</h2>
+<ul>
+    {% for post in blog.post_set.all %}
+    <li><a href="{% url 'post-detail' blog_pk=blog.id post_pk=post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
 
 
 {% endblock %}
