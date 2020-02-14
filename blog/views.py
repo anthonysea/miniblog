@@ -78,7 +78,7 @@ class UserDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
 
         context.update({
-            'title': self.request.user.username
+            'title': self.request.user.username,
         })
         return context
 

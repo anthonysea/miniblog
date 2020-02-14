@@ -16,10 +16,10 @@
                 <li><a href="{% url 'user-list' %}">Users</a></li>
                 <li><a href="{% url 'post-list' %}">Recent Posts</a></li>
                 <hr align="left" width="50%" size="1">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'user-detail' user.id %}">{{ user.username }}</a></li>
-                    {% if user.blog_set.first %}
-                    <li><a href="{% url 'blog-detail' user.blog_set.first.id %}">My Blog</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'user-detail' request.user.id %}">{{ request.user.username }}</a></li>
+                    {% if request.user.blog_set.first %}
+                    <li><a href="{% url 'blog-detail' request.user.blog_set.first.id %}">My Blog</a></li>
                     {% else %}
                     <li><a href="{% url 'blog-create' %}">Create A Blog</a></li>
                     {% endif %}
